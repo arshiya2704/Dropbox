@@ -102,3 +102,18 @@ export const checkSession = () =>
         .catch(error => {
             console.log("This is error");
             return error;});
+
+export const update = (payload) =>
+    fetch(`${apis}/users/api/doUpdate`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => {
+        return res.json();
+    })
+        .catch(error => {
+            console.log("This is error");
+            return error;});

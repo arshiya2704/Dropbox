@@ -6,7 +6,8 @@ import logo from '../logo.png';
 import img from '../img.png';
 import Welcome from "./Welcome";
 import Error from "./Error";
-import Error1 from "./Error1"
+import Error1 from "./Error1";
+import Info from "./Info";
 
 class Login extends Component {
     constructor() {
@@ -88,6 +89,11 @@ class Login extends Component {
                 <Route exact path="/error1" render={() => (
                     <div>
                         <Error1/>
+                    </div>
+                )}/>
+                <Route exact path="/info" render={() => (
+                    <div>
+                        <Info tag={this.state.tag}/>
                     </div>
                 )}/>
             </div>

@@ -80,15 +80,13 @@ class ImageGridList extends Component {
 
                     </div>
 
-
-
         );
         {
             return(
                 <div>
                     {imageList}
                     <div>
-                        <button className="btn btn-primary" onClick={() => this.handleShare()}>share</button>
+                        {/*<button className="btn btn-primary" onClick={() => this.handleShare()}>share</button>*/}
                     </div>
                 </div>
 

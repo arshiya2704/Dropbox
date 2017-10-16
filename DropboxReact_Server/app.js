@@ -8,8 +8,8 @@ var cors = require('cors');
 
 var app = express();
 var mysql = require('mysql');
-var session = require('express-session');
-var MemcachedStore = require('connect-memcached')(session);
+//var session = require('express-session');
+//var MemcachedStore = require('connect-memcached')(session);
 
 app.use(cors());
 
@@ -23,7 +23,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
+/*app.use(session({
     secret  : 'some-private-key',
     key     : 'test',
     proxy   : 'true',
@@ -31,7 +31,7 @@ app.use(session({
         hosts: ['127.0.0.1:11211'], //this should be where your Memcached server is running
         secret: 'memcached-secret-key' // Optionally use transparent encryption for memcache session data
     })
-}));
+}));*/
 
 
 

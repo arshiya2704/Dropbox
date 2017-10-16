@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mysql =require('./mysql')
 var passwordHash = require('password-hash');
-var session;
+//var session;
 router.post('/api/doLogin', function (req, res) {
     console.log('doLogin is being called');
     console.log(req.body);
@@ -22,9 +22,9 @@ router.post('/api/doLogin', function (req, res) {
             console.log(check);
             console.log(results[0].pwd);
             if (check === true) {
-                req.session.email = email;
-                req.session.save();
-                session= req.session;
+                //req.session.email = email;
+                //req.session.save();
+                //session= req.session;
                 console.log("Session initialized");
                     res.send({
                         message: "logged in",
@@ -42,14 +42,14 @@ router.post('/api/doLogin', function (req, res) {
 
 
 });
-router.post('/api/checkSession', function (req, res){
-   // console.log("Client Username check"+ req.session.email);
-    if(session.email)
-        res.send({owner:session.email,status:200});
-    else
-        res.status (500).send();
-
-});
+// router.post('/api/checkSession', function (req, res){
+//    // console.log("Client Username check"+ req.session.email);
+//     if(session.email)
+//         res.send({owner:session.email,status:200});
+//     else
+//         res.status (500).send();
+//
+// });
 router.post('/api/doRegister', function (req, res) {
     console.log('doRegister is being called');
     console.log(req.body);
@@ -74,6 +74,32 @@ router.post('/api/doRegister', function (req, res) {
         }
 
     },insertUser);
+
+});
+
+router.post('/api/doUpdate', function (req, res) {
+    console.log('doUpdate is being called');
+    console.log(req.body);
+    var email = req.body.Email;
+    var work = req.body.formData.Work;
+    var edu = req.body.formData.Edu;
+    var interest = req.body.formData.Interest;
+    console.log(email);
+    console.log(work);
+    console.log(edu);
+    console.log(interest);
+    var updateUser="update info set work='"+work+"', edu ='"+edu+"', interest='"+interest+"' where email='"+email+"';" ;
+    console.log(updateUser);
+    mysql.insertData(function(err,results){
+        if(err){
+            throw err;
+        }
+        else {
+            res.send({message:"Updated"});
+
+        }
+
+    },updateUser);
 
 });
 module.exports = router;

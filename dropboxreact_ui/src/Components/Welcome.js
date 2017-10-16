@@ -58,43 +58,44 @@ class Welcome extends Component {
         this.setState({ val: val });
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         var owner1 = this.props.tag;
-        console.log("component check");
-        // API.checkSession().then((res) => {
-            // if (res.status === 500){
-            //     this.props.history.push("/");
-            // }
-            // else if(res.status === 200){
-                //var owner1 = res.owner;
-                if (!this.state.files || this.state.files.length===0) {
-                    API.getImages({value: owner1})
-                        .then((data) => {
-                            console.log(data);
-                            this.setState({
-                                files: data
-                                
-                            });
-                        });
+        
+        API.getImages({value: owner1})
+            .then((data) => {
+                console.log(data);
+                this.setState({
+                    files: data
 
-                }
-
+                });
+            });
 
     };
 
     render() {
+
+        var btnstyle={
+            float: 'right',
+            marginLeft: '900px'
+        };
+        var uploadstyle={
+            float:'right',
+            marginRight:'10px',
+            marginTop:'200px'
+        };
         return (
             <div className="container-fluid">
                 <div className="container-fluid">
                         <div className="row">
                             <div>
-                                <Link to="/">Sign out</Link>
-                                <hr/>
+                                <Link to="/" style={btnstyle}>Sign out</Link>
+                                <Link to="/info" style={btnstyle}>Update info</Link>
                                 <TextField
                                     className={'fileupload'}
                                     type="file"
                                     name="mypic"
                                     onChange={this.handleFileUpload}
+                                    style={uploadstyle}
                                 />
                                 <ImageGridList files={this.state.files}/>
                                 <button type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Create Folder</button>
