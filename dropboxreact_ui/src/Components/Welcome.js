@@ -73,6 +73,7 @@ class Welcome extends Component {
                             console.log(data);
                             this.setState({
                                 files: data
+                                
                             });
                         });
 
