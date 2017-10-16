@@ -1,0 +1,30 @@
+Create database dropbox_users;
+
+use dropbox_users;
+
+CREATE TABLE `file_info` (
+  `fileid` int(11) NOT NULL AUTO_INCREMENT,
+  `path` varchar(200) DEFAULT NULL,
+  `owner` varchar(100) DEFAULT NULL,
+  `fileType` varchar(100) DEFAULT NULL,
+  `parent` varchar(100) DEFAULT NULL,
+  `fileName` varchar(100) DEFAULT NULL,
+  `groupid` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`fileid`),
+  UNIQUE KEY `fileName` (`fileName`),
+  KEY `owner` (`owner`),
+  CONSTRAINT `file_info_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `info` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `info` (
+  `fname` char(30) DEFAULT NULL,
+  `lname` char(30) DEFAULT NULL,
+  `email` char(50) NOT NULL,
+  `pwd` char(100) DEFAULT NULL,
+  `work` varchar(200) DEFAULT NULL,
+  `edu` varchar(200) DEFAULT NULL,
+  `interest` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`email`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
