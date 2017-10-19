@@ -60,15 +60,18 @@ class Welcome extends Component {
 
     componentDidUpdate() {
         var owner1 = this.props.tag;
-        
-        API.getImages({value: owner1})
-            .then((data) => {
-                console.log(data);
-                this.setState({
-                    files: data
+if(!this.state.files || this.state.files.length===0)
+{
+    API.getImages({value: owner1})
+        .then((data) => {
+            console.log(data);
+            this.setState({
+                files: data
 
-                });
             });
+        });
+}
+
 
     };
 
