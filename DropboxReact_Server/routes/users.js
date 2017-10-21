@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var mysql =require('./mysql')
+var mysql =require('./mysql');
 var passwordHash = require('password-hash');
-//var session;
+var session;
+
+
 router.post('/api/doLogin', function (req, res) {
     console.log('doLogin is being called');
     console.log(req.body);
@@ -17,39 +19,44 @@ router.post('/api/doLogin', function (req, res) {
         }
         else {
             console.log(results);
-            console.log(pwd);
-            var check = passwordHash.verify(pwd, results[0].pwd);
-            console.log(check);
-            console.log(results[0].pwd);
-            if (check === true) {
-                //req.session.email = email;
-                //req.session.save();
-                //session= req.session;
-                console.log("Session initialized");
+            if(!results.length){
+                res.send({message: "user does not exist"});
+            }
+            else{
+                console.log(pwd);
+                var check = passwordHash.verify(pwd, results[0].pwd);
+                console.log(check);
+                console.log(results[0].pwd);
+                if (check === true) {
+                    // req.session.email = email;
+                    // req.session.save();
+                    session= req.session;
+                    session.email = email;
+                    session.save();
+                    console.log("Session initialized");
                     res.send({
                         message: "logged in",
                         email: results[0].email
                     });
                 }
-            else
-                {
-
-                    res.send({message: "user does not exist. Or username password in correct"});
+                else{
+                    res.send({message: "password incorrect"});
                 }
-
+            }
         }
     },getUser);
+});
 
+
+router.post('/api/checkSession', function (req, res){
+   // console.log("Client Username check"+ req.session.email);
+    if(session.email)
+        res.send({owner:session.email,status:200});
+    else
+        res.status (500).send();
 
 });
-// router.post('/api/checkSession', function (req, res){
-//    // console.log("Client Username check"+ req.session.email);
-//     if(session.email)
-//         res.send({owner:session.email,status:200});
-//     else
-//         res.status (500).send();
-//
-// });
+
 router.post('/api/doRegister', function (req, res) {
     console.log('doRegister is being called');
     console.log(req.body);
@@ -77,6 +84,16 @@ router.post('/api/doRegister', function (req, res) {
 
 });
 
+router.post('/api/logout', function (req, res) {
+    console.log('logout is being called');
+    req.session.destroy(function(err) {
+        if(err) {
+            console.log(err);
+        } else {
+            res.send({status:200})
+        }
+    })});
+
 router.post('/api/doUpdate', function (req, res) {
     console.log('doUpdate is being called');
     console.log(req.body);
@@ -102,4 +119,5 @@ router.post('/api/doUpdate', function (req, res) {
     },updateUser);
 
 });
+
 module.exports = router;
