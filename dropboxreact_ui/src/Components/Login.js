@@ -19,6 +19,7 @@ class Login extends Component {
             password: ''
         }
     }};
+
     handleChange (propertyName, event) {
         const userData = this.state.userData;
         userData[propertyName] = event.target.value;
@@ -40,33 +41,30 @@ class Login extends Component {
                 else alert(res.message);
             });}
     };
+
     render() {
         return (
             <div className="container-fluid">
-                <div className="row justify-content-md-center">
-                    <div className="col xs={4} sm={4} md={4} lg={4}">
-                        <h1 className="text-center">
-                            <img src={logo} alt="logo" />Dropbox
-                        </h1>
-                        <hr/>
-                    </div>
-                </div>
                 <Route exact path="/" render={() => (
-                    <div className="card card-size mx-auto p-5">
-                        <div className="row">
-                            <div className="col-sm- col-md-6">
-                                <img src={img} alt="logo"/>
-                            </div>
-                            <div className="col-sm-4 col-md-4">
-                                <Link to="/register">create an account</Link><br/><br/>
-                                OR
-                                <hr/>
-                                <form action="">
-                                    <input type="email" className="form-control" placeholder="Email" onChange={this.handleChange.bind(this, 'email')} value={this.state.userData.email}/><br/>
-                                    <input type="password" className="form-control" placeholder="Password" name="password" onChange={this.handleChange.bind(this, 'password')} value={this.state.userData.password}/><br/>
-                                    <button className="btn btn-primary" type="submit" onClick={(e) => (e.preventDefault(), this.handleSubmit(this.state))}>Sign In</button>
-                                </form>
-                            </div>
+                    <div className="row justify-content-md-center">
+                        <div className="col">
+                            <h1 className="text-center">
+                                <img src={logo} alt="logo"/>Dropbox
+                            </h1>
+                            <hr/>
+                        </div>
+                        <div className="col-md-3 col-md-offset-3 col-sm-5 col-sm-offset-1 col-xs-6">
+                            <img src={img} className="img-responsive" alt="logo" />
+                        </div>
+                        <div className="col-md-4 col-md-offset-0 col-sm-5 col-sm-offset-0 col-xs-6">
+                            <Link to="/register">create an account</Link><br/><br/>
+                            OR
+                            <hr/>
+                            <form action="" className="form-group">
+                                <input type="email" className="form-control" placeholder="Email" onChange={this.handleChange.bind(this, 'email')} value={this.state.userData.email}/><br/>
+                                <input type="password" className="form-control" placeholder="Password" name="password" onChange={this.handleChange.bind(this, 'password')} value={this.state.userData.password}/><br/>
+                                <button className="btn btn-primary" type="submit" onClick={(e) => (e.preventDefault(), this.handleSubmit(this.state))}>Sign In</button>
+                            </form>
                         </div>
                     </div>
                 )}/>
@@ -77,7 +75,7 @@ class Login extends Component {
                 )}/>
                 <Route exact path="/welcome" render={() => (
                     <div>
-                        Welcome: {this.state.tag}
+                        {/*Welcome: {this.state.tag}*/}
                         <Welcome tag={this.state.tag}/>
                     </div>
                 )}/>
