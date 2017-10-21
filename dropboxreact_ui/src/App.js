@@ -5,14 +5,15 @@ import LoginPage from "./Components/Login";
 
 
 class App extends Component {
-  render() {
-    return (
-        <div className="App">
-            <BrowserRouter>
-                <LoginPage/>
-            </BrowserRouter>
-        </div>
-    );
+  render()
+  {
+      return(
+          <div className="App">
+              <BrowserRouter>
+                  <LoginPage/>
+              </BrowserRouter>
+          </div>
+      );
   }
 }
 export default App;
