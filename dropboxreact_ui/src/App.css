@@ -27,12 +27,19 @@
   to { transform: rotate(360deg); }
 }
 
-.fileupload{
-  left: 38%;
-  right: 38%;
-  margin: 20px !important;
-}
-
 .centered{
   align-content: center;
 }
+
+.navbar{
+  min-height: 850px;
+  margin-top: -20px;
+  background-color: #f1f6f7;
+  margin-left: -30px;
+}
+
+.file-upload{
+  width: 230px;
+}
+
+
