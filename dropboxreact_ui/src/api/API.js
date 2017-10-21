@@ -1,8 +1,5 @@
-const apis = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:3002'
-//
-// const headers = {
-//     'Accept': 'application/json'
-// };
+const apis = process.env.REACT_APP_CONTACTS_API_URL || 'http://localhost:3002';
+
 
 export const login = (payload) =>
     fetch(`${apis}/users/api/doLogin`, {
@@ -19,6 +16,8 @@ export const login = (payload) =>
         console.log("This is error");
         return error;});
 
+
+
 export const register = (payload) =>
     fetch(`${apis}/users/api/doRegister`, {
         method: 'POST',
@@ -33,6 +32,8 @@ export const register = (payload) =>
         .catch(error => {
             console.log("This is error");
             return error;});
+
+
 
 export const getImages = (value) =>
     fetch(`${apis}/files/`,{
@@ -111,6 +112,20 @@ export const update = (payload) =>
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(payload)
+    }).then(res => {
+        return res.json();
+    })
+        .catch(error => {
+            console.log("This is error");
+            return error;});
+
+export const logOut = () =>
+    fetch(`${apis}/users/api/logout`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
     }).then(res => {
         return res.json();
     })
