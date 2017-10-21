@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link,withRouter} from 'react-router-dom';
 import '../App.css';
 import * as API from '../api/API';
-import TextField from 'material-ui/TextField';
 import ImageGridList from "../Components/ImageGridList";
+import logo2 from '../logo2.png';
 
 
 class Welcome extends Component {
-    handleFileUpload = (event) => {
 
+    handleFileUpload = (event) => {
         const payload = new FormData();
-        var owner = this.props.tag;
         payload.append('mypic', event.target.files[0]);
-        payload.append('owner',owner);
+        payload.append('owner',this.state.owner);
         API.uploadFile(payload)
             .then((status) => {
                 if (status === 204) {
@@ -21,6 +20,7 @@ class Welcome extends Component {
                             this.setState({
                                 files: data
                             });
+                            this.init();
                         });
                 }
             });
@@ -28,9 +28,8 @@ class Welcome extends Component {
     };
 
     handleDirectory(){
-        var owner =this.props.tag;
         const payload = new FormData();
-        payload.append('owner',owner);
+        payload.append('owner',this.state.owner);
         payload.append('dirName',this.state.dirName);
         API.createDirectory(payload).then((status) => {
             if (status === 204) {
@@ -39,68 +38,87 @@ class Welcome extends Component {
                         this.setState({
                             files: data
                         });
+                        this.init();
                     });
             }
         });
 
     };
+
     constructor() {
         super();
         this.state = {
             files: [],
             tag:'',
-            dirName:''
+            dirName:'',
+            owner:''
         };
+        this.init();
     }
+
     handleChange (propertyName, event) {
         const val = this.state;
         val[propertyName] = event.target.value;
         this.setState({ val: val });
     }
 
-    componentDidUpdate() {
-        var owner1 = this.props.tag;
-if(!this.state.files || this.state.files.length===0)
-{
-    API.getImages({value: owner1})
-        .then((data) => {
-            console.log(data);
-            this.setState({
-                files: data
-
-            });
+    logOut(){
+        API.logOut().then((res) => {
+           if(res.status === 200){
+               this.props.history.push("/");
+           }
         });
-}
+    }
 
+    init() {
+        console.log("component check");
+        API.checkSession().then((res) => {
+        if (res.status === 500){
+            this.props.history.push("/");
+        }
+        else if(res.status === 200) {
+            this.setState({
+                owner:res.owner
+            });
+            var owner1 = res.owner;
+            if (!this.state.files || this.state.files.length === 0) {
+                API.getImages({value: owner1})
+                    .then((data) => {
+                        console.log(data);
+                        this.setState({
+                            files: data
 
-    };
+                        });
+                    });
+
+            }
+        }});
+    }
 
     render() {
-
-        var btnstyle={
-            float: 'right',
-            marginLeft: '900px'
-        };
-        var uploadstyle={
-            float:'right',
-            marginRight:'10px',
-            marginTop:'200px'
+        var buttons={
+          float:"right"
         };
         return (
             <div className="container-fluid">
-                <div className="container-fluid">
-                        <div className="row">
-                            <div>
-                                <Link to="/" style={btnstyle}>Sign out</Link>
-                                <Link to="/info" style={btnstyle}>Update info</Link>
-                                <TextField
-                                    className={'fileupload'}
-                                    type="file"
-                                    name="mypic"
-                                    onChange={this.handleFileUpload}
-                                    style={uploadstyle}
-                                />
-                                <ImageGridList files={this.state.files}/>
+                Welcome: {this.state.owner}
+                    <div className="row">
+                        <div className="col-md-2">
+                            <nav className="navbar navbar-custom">
+                                <br/>
+                                <br/>
+                                <img src={logo2} alt="logo"/>
+                                <br/>
+                                <br/>
+                                <br/>
+                                Home
+                                <br/>
+                                <br/>
+                                <div className="fileinput fileinput-new" data-provides="fileinput">
+                                    <span className="btn btn-info btn-file file-upload"><span>Choose file</span><input type="file" name="mypic" onChange={this.handleFileUpload}/></span>
+                                </div>
+                                <br/>
+                                <br/>
                                 <button type="button" className="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Create Folder</button>
                                 <div className="modal fade" id="myModal" role="dialog">
                                     <div className="modal-dialog">
@@ -122,12 +140,21 @@ if(!this.state.files || this.state.files.length===0)
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </nav>
                         </div>
-                </div>
+                        <div>
+                            <button type="button" style={buttons} className="btn btn-link" onClick={() => this.logOut()}>Sign out</button><br/><br/>
+                            <Link to="/info" style={buttons} >Update info</Link><br/><br/><br/><br/>
+                            <ImageGridList files={this.state.files}/>
+                        </div>
+                    </div>
             </div>
+
         );
+
     }
+
 }
 
-export default Welcome;
+
+export default withRouter(Welcome);
