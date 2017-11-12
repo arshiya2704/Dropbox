@@ -134,10 +134,12 @@ router.use(fileUpload({preserveExtension:true}));
     router.post('/share', function (req, res) {
         console.log('share is being called');
         console.log(req.body);
-        var fileName= req.body.fileName;
+        var fileId= req.body.fileId;
         var receiver =req.body.email;
-        console.log(fileName);
+        var sharedBy = req.body.owner;
+        console.log(fileId);
         console.log(receiver);
+        console.log(sharedBy);
 
         // MySQL Code
         // var shareFile= "insert into file_info (fileid, path, owner,fileType) values (DEFAULT ,'" + path + "','" + receiver +"', 'F');";
@@ -156,7 +158,7 @@ router.use(fileUpload({preserveExtension:true}));
         // },shareFile);
         //********************************************************************
 
-        kafka.make_request('share_topic', {"name":fileName,"email": receiver}, function (err, results) {
+        kafka.make_request('share_topic', {"id":fileId,"email": receiver, "sharedBy": sharedBy}, function (err, results) {
             console.log('in result');
             console.log(results);
             if (err) {
@@ -270,6 +272,24 @@ router.post('/api/delete', function (req, res) {
         }
     });
 
+});
+
+router.post('/shared', function (req, res) {
+    console.log('getShared is being called');
+    console.log(req.body);
+    var owner=req.body.value;
+    console.log(owner);
+    kafka.make_request('listShared_topic', {"owner": owner}, function (err, results) {
+        console.log('in result');
+        console.log(results);
+        if (err) {
+            throw err;
+            return;
+        }
+        else {
+            res.status(200).send(results.value);
+        }
+    });
 });
 
 module.exports = router;

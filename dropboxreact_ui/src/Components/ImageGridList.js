@@ -12,13 +12,14 @@ class ImageGridList extends Component {
             email: '',
             fileName: '',
             path:'/welcome/',
-            parent:'root'
+            parent:'root',
+            fileId:''
         };
     }
 
-    handleShare= (fileName, event) => {
+    handleShare= (fileId, owner) => {
         const email = this.state.email;
-        API.share({fileName,email})
+        API.share({fileId,email, owner})
             .then((res) => {
                 if (res.status === 200) {
                     NotificationManager.success('', res.message, 1000);
@@ -75,6 +76,11 @@ class ImageGridList extends Component {
     change(fileName){
         this.setState({
             fileName: fileName
+        });
+    }
+    change1(fileId){
+        this.setState({
+            fileId: fileId
         });
     }
     push(id){
@@ -145,7 +151,7 @@ class ImageGridList extends Component {
                         </div>
                     </div>
                 </div>
-                <span className="glyphicon glyphicon-share" style={fileStyle1} aria-hidden="true" role="button" data-toggle="modal" data-target="#myModal_share" onClick={() => this.change(file.name)}></span>
+                <span className="glyphicon glyphicon-share" style={fileStyle1} aria-hidden="true" role="button" data-toggle="modal" data-target="#myModal_share" onClick={() => this.change1(file.id)}></span>
                 <div className="modal fade" id="myModal_share" role="dialog">
                     <div className="modal-dialog">
                         <div className="modal-content">
@@ -161,7 +167,7 @@ class ImageGridList extends Component {
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => this.handleShare(this.state.fileName)}>Share</button>
+                                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => this.handleShare(this.state.fileId, file.owner)}>Share</button>
                             </div>
                         </div>
                     </div>
@@ -190,7 +196,7 @@ class ImageGridList extends Component {
                             </div>
                         </div>
                     </div>
-                    <span className="glyphicon glyphicon-share" style={fileStyle1} aria-hidden="true" role="button" data-toggle="modal" data-target="#myModal_share" onClick={() => this.change(file.name)}></span>
+                    <span className="glyphicon glyphicon-share" style={fileStyle1} aria-hidden="true" role="button" data-toggle="modal" data-target="#myModal_share" onClick={() => this.change1(file.id)}></span>
                     <div className="modal fade" id="myModal_share" role="dialog">
                         <div className="modal-dialog">
                             <div className="modal-content">
@@ -206,7 +212,7 @@ class ImageGridList extends Component {
                                     </form>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => this.handleShare(this.state.fileName)}>Share</button>
+                                    <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => this.handleShare(this.state.fileId, file.owner)}>Share</button>
                                 </div>
                             </div>
                         </div>

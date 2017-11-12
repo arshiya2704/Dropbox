@@ -159,6 +159,8 @@ class Welcome extends Component {
                             <br/>
                             <br/>
                             <Link to="/welcome">Home</Link><br/>
+                            <br/>
+                            <Link to="/shared">Files Shared with me</Link><br/>
                         </nav>
                     </div>
                     <br/>

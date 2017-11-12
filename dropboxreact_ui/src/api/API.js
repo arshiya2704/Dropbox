@@ -177,3 +177,19 @@ export const getLogs = (payload) =>
         .catch(error => {
             console.log("This is error");
             return error;});
+
+export const getSharedImages = (value) =>
+    fetch(`${apis}/files/shared`,{
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(value)
+
+    })
+        .then(res => res.json())
+        .catch(error => {
+            console.log("This is error.");
+            return error;
+        });

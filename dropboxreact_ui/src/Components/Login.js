@@ -10,7 +10,7 @@ import Error1 from "./Error1";
 import Info from "./Info";
 import Folder from "./Folder";
 import Logs from "./Logs";
-
+import SharedFiles from "./SharedFiles";
 
 class Login extends Component {
     constructor() {
@@ -107,6 +107,11 @@ class Login extends Component {
                 <Route exact path="/logs" render={() => (
                     <div>
                         <Logs/>
+                    </div>
+                )}/>
+                <Route exact path="/shared" render={() => (
+                    <div>
+                        <SharedFiles/>
                     </div>
                 )}/>
 

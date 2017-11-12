@@ -9,6 +9,7 @@ var del = require('./services/del');
 var share = require('./services/share');
 var update = require('./services/update');
 var logs = require('./services/logs');
+var listShared = require('./services/listShared')
 
 var topic_name = 'login_topic';
 var topic_name1 = 'register_topic';
@@ -20,6 +21,7 @@ var topic_name6 = 'del_topic';
 var topic_name7 = 'share_topic';
 var topic_name8 = 'update_topic';
 var topic_name9 = 'logs_topic';
+var topic_name10 = 'listShared_topic';
 var consumer = connection.getConsumer(topic_name);
 var consumer1 = connection.getConsumer(topic_name1);
 var consumer2 = connection.getConsumer(topic_name2);
@@ -30,6 +32,7 @@ var consumer6 = connection.getConsumer(topic_name6);
 var consumer7 = connection.getConsumer(topic_name7);
 var consumer8 = connection.getConsumer(topic_name8);
 var consumer9 = connection.getConsumer(topic_name9);
+var consumer10 = connection.getConsumer(topic_name10);
 var producer = connection.getProducer();
 
 console.log('server is running');
@@ -236,6 +239,28 @@ consumer9.on('message', function (message) {
     console.log(JSON.stringify(message.value));
     var data = JSON.parse(message.value);
     logs.handle_request9(data.data, function(err,res){
+        console.log('after handle'+res.code);
+        var payloads = [
+            { topic: data.replyTo,
+                messages:JSON.stringify({
+                    correlationId:data.correlationId,
+                    data : res
+                }),
+                partition : 0
+            }
+        ];
+        producer.send(payloads, function(err, data){
+            console.log("Data"+data);
+        });
+        return;
+    });
+});
+
+consumer10.on('message', function (message) {
+    console.log('message received');
+    console.log(JSON.stringify(message.value));
+    var data = JSON.parse(message.value);
+    listShared.handle_request10(data.data, function(err,res){
         console.log('after handle'+res.code);
         var payloads = [
             { topic: data.replyTo,

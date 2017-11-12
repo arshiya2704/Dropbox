@@ -30,10 +30,16 @@ var transactionDataSchema = new Schema({
     time : Date
 });
 
+var shareDataSchema = new Schema({
+    user:   String,
+    fileId: {type: mongoose.Schema.Types.ObjectId, ref: 'FileData', unique: 'true'},
+    sharedBy : String
+});
+
 fileDataSchema.index({ "owner": 1, "name": 1, "parent":1}, { "unique": true });
 
 module.exports.UserData = mongoose.model('UserData', userDataSchema);
 module.exports.FileData = mongoose.model('FileData', fileDataSchema);
 module.exports.TransactionData = mongoose.model('TransactionData', transactionDataSchema);
-
+module.exports.ShareData = mongoose.model('ShareData', shareDataSchema);
 
