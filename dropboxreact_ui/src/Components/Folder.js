@@ -111,7 +111,11 @@ class Folder extends Component {
                         });
                 }
             }});
+        window.onpopstate = function(event) {
+            window.location.reload();
+        };
     }
+
 
     render() {
         var buttons={

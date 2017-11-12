@@ -88,7 +88,6 @@ class ImageGridList extends Component {
                 state: { parent: id }
             });
         });
-
         setTimeout(function(){
             window.location.reload(1);
         }, 500)
