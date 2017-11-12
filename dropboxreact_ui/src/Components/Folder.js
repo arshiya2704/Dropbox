@@ -10,21 +10,18 @@ import {NotificationContainer, NotificationManager} from 'react-notifications';
 import StarList from "../Components/StarList";
 
 
-class Welcome extends Component {
+class Folder extends Component {
 
     handleFileUpload = (event) => {
         const payload = new FormData();
         payload.append('mypic', event.target.files[0]);
         payload.append('owner',this.state.owner);
-        payload.append('parent','root');
+        payload.append('parent', this.props.location.state.parent);
         console.log(payload);
         API.uploadFile(payload)
             .then((res) => {
                 if (res.status === 200) {
                     NotificationManager.success('', res.message , 1000);
-                    this.setState({
-                        parent:res.id
-                    });
                     API.getImages()
                         .then((data) => {
                             this.setState({
@@ -45,12 +42,9 @@ class Welcome extends Component {
         const payload = new FormData();
         payload.append('owner',this.state.owner);
         payload.append('dirName',this.state.dirName);
-        payload.append('parent','root');
+        payload.append('parent', this.props.location.state.parent);
         API.createDirectory(payload).then((res) => {
             if (res.status === 200) {
-                this.setState({
-                    parent:res.id
-                });
                 NotificationManager.success('', res.message , 1000);
                 API.getImages()
                     .then((data) => {
@@ -75,8 +69,7 @@ class Welcome extends Component {
             dirName:'',
             owner:'',
             message:'',
-            parent:'root',
-            logs:[]
+            parent:''
         };
         this.init();
     }
@@ -89,61 +82,40 @@ class Welcome extends Component {
 
     logOut(){
         API.logOut().then((res) => {
-           if(res.status === 200){
-               this.props.history.push("/");
-           }
+            if(res.status === 200){
+                this.props.history.push("/");
+            }
         });
     }
 
     init() {
         console.log("component check");
         API.checkSession().then((res) => {
-        if (res.status === 500){
-            this.props.history.push("/");
-        }
-        else if(res.status === 200) {
-            this.setState({
-                owner:res.owner
-            });
-            var owner1 = res.owner;
-            if (!this.state.files || this.state.files.length === 0) {
-                API.getImages({value: owner1, parent:'root'})
-                    .then((data) => {
-                        console.log(data);
-                        this.setState({
-                            files: data
-                        });
-                    });
-
-            }
-        }});
-    }
-
-    showLogs(owner){
-        API.getLogs({owner}).then((res) => {
-            console.log(res.message);
             if (res.status === 500){
                 this.props.history.push("/");
             }
             else if(res.status === 200) {
                 this.setState({
-                    logs: res.message
-                },() => { this.props.history.push(
-                    {
-                        pathname: "/logs",
-                        state: { logVal : res.message }
-                    });
+                    owner:res.owner,
+                    parent: this.props.location.state.parent
                 });
+                var owner1 = res.owner;
+                if (!this.state.files || this.state.files.length === 0) {
+                    API.getImages({value: owner1, parent:this.state.parent})
+                        .then((data) => {
+                            console.log(data);
+                            this.setState({
+                                files: data
+
+                            });
+                        });
+                }
             }});
     }
 
     render() {
         var buttons={
-          float:"right"
-        };
-
-        var logo={
-            marginLeft : "2 rem"
+            float:"right"
         };
         return (
             <div className="container-fluid">
@@ -153,12 +125,10 @@ class Welcome extends Component {
                             <br/>
                             <br/>
                             <br/>
-                            <button className="btn btn-logo btn-block center-block"  id="menu1" type="button" onClick={() => this.showLogs(this.state.owner)} >
-                            </button>
-                            {/*<img className="img-responsive center-block" src={logo2} alt="logo"/>*/}
+                            <img className="img-responsive center-block" src={logo2} alt="logo"/>
                             <br/>
                             <br/>
-                            <Link to="/welcome">Home</Link><br/>
+                            <h4 className="text-primary">Home</h4>
                         </nav>
                     </div>
                     <br/>
@@ -167,7 +137,7 @@ class Welcome extends Component {
                         <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             <h4>Home</h4>
                             <br/>
-                            <h5 className="text-muted">Starred</h5>
+                            {/*<h5 className="text-muted">Starred</h5>*/}
                         </div>
                         <br/>
                         <br/>
@@ -175,7 +145,7 @@ class Welcome extends Component {
                         <br/>
                         <hr/>
                         <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <StarList files={this.state.files}/>
+                            {/*<StarList files={this.state.files}/>*/}
                         </div>
                         <div className="col-lg-1 col-md-1 col-sm-1 col-xs-1">
                             <h5 className="text-muted">Files</h5>
@@ -218,29 +188,29 @@ class Welcome extends Component {
                         <br/>
                         <div>
                             <button type="button" className="btn btn-primary btn-block" style={buttons} data-toggle="modal" data-target="#myModal">Create Folder</button>
-                                <div className="modal fade" id="myModal" role="dialog">
-                                    <div className="modal-dialog">
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <button type="button" className="close" data-dismiss="modal">&times;</button>
-                                                <h4 className="modal-title">Enter Directory Name</h4>
-                                            </div>
-                                            <div className="modal-body">
-                                                <form className="form">
-                                                    <div className="form-group">
-                                                        <input type="text" className="form-control" onChange={this.handleChange.bind(this, 'dirName')} value={this.state.dirName}></input>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div className="modal-footer">
-                                                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => this.handleDirectory()}>Save</button>
-                                            </div>
+                            <div className="modal fade" id="myModal" role="dialog">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                            <h4 className="modal-title">Enter Directory Name</h4>
+                                        </div>
+                                        <div className="modal-body">
+                                            <form className="form">
+                                                <div className="form-group">
+                                                    <input type="text" className="form-control" onChange={this.handleChange.bind(this, 'dirName')} value={this.state.dirName}></input>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => this.handleDirectory()}>Save</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 <NotificationContainer/>
             </div>
 
@@ -251,4 +221,4 @@ class Welcome extends Component {
 }
 
 
-export default withRouter(Welcome);
+export default withRouter(Folder);

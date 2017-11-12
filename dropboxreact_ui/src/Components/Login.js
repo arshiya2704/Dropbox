@@ -8,6 +8,9 @@ import Welcome from "./Welcome";
 import Error from "./Error";
 import Error1 from "./Error1";
 import Info from "./Info";
+import Folder from "./Folder";
+import Logs from "./Logs";
+
 
 class Login extends Component {
     constructor() {
@@ -35,8 +38,11 @@ class Login extends Component {
             .then((res) => {
             console.log(res);
                 if (res.message === 'logged in'){
+                    this.setState(
+                        {
+                            tag : res.email
+                        });
                     this.props.history.push("/welcome");
-                    this.setState({tag:res.email});
                 }
                 else alert(res.message);
             });}
@@ -73,9 +79,8 @@ class Login extends Component {
                         <Register/>
                     </div>
                 )}/>
-                <Route exact path="/welcome" render={() => (
+                <Route exact path="/welcome/" render={() => (
                     <div>
-                        {/*Welcome: {this.state.tag}*/}
                         <Welcome tag={this.state.tag}/>
                     </div>
                 )}/>
@@ -94,6 +99,17 @@ class Login extends Component {
                         <Info tag={this.state.tag}/>
                     </div>
                 )}/>
+                <Route exact path="/welcome/:folder" render={() => (
+                    <div>
+                        <Folder/>
+                    </div>
+                )}/>
+                <Route exact path="/logs" render={() => (
+                    <div>
+                        <Logs/>
+                    </div>
+                )}/>
+
             </div>
         );
     }

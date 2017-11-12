@@ -8,7 +8,7 @@ export const login = (payload) =>
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({username:payload.userData.email,password:payload.userData.password})
     }).then(res => {
     return res.json();
 })
@@ -25,7 +25,7 @@ export const register = (payload) =>
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({username:payload.formData.email,password:payload.formData.password,fname:payload.formData.Fname,lname:payload.formData.Lname})
     }).then(res => {
         return res.json();
     })
@@ -49,14 +49,14 @@ export const getImages = (value) =>
         .catch(error => {
             console.log("This is error.");
             return error;
-        });
+    });
 
 export const uploadFile = (payload) =>
     fetch(`${apis}/files/upload`, {
         method: 'POST',
         body: payload
     }).then(res => {
-        return res.status;
+        return res.json();
     }).catch(error => {
         console.log("This is error");
         return error;
@@ -71,7 +71,7 @@ export const share = (payload) =>
         },
         body: JSON.stringify(payload)
         }).then(res => {
-            return res.message;
+            return res.json();
         }).catch(error => {
             console.log("This is error");
             return error;
@@ -83,7 +83,7 @@ export const createDirectory = (payload) =>
         method: 'POST',
         body: payload
     }).then(res => {
-        return res.status;
+        return res.json();
     }).catch(error => {
         console.log("This is error");
         return error;
@@ -126,6 +126,51 @@ export const logOut = () =>
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
+    }).then(res => {
+        return res.json();
+    })
+        .catch(error => {
+            console.log("This is error");
+            return error;});
+
+export const star = (payload) =>
+    fetch(`${apis}/files/api/doStar`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => {
+        return res.json();
+    })
+        .catch(error => {
+            console.log("This is error");
+            return error;});
+
+export const del = (payload) =>
+    fetch(`${apis}/files/api/delete`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    }).then(res => {
+        return res.json();
+    })
+        .catch(error => {
+            console.log("This is error");
+            return error;});
+
+export const getLogs = (payload) =>
+    fetch(`${apis}/users/api/fetchLogs`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
     }).then(res => {
         return res.json();
     })
