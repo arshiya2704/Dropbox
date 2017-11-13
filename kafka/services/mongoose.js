@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('localhost:27017/dropbox');
+mongoose.connect('localhost:27017/dropbox',{ server: { poolSize: 100}});
 var Schema = mongoose.Schema;
 
 var userDataSchema = new Schema({
