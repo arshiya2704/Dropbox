@@ -13,3 +13,9 @@ Front-end server
 	1. cd dropboxreact_UI
 	2. npm install
 	3. npm start
+	
+Kafka 
+
+	1. cd kafka
+	2. npm install
+	3. npm start
