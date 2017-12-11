@@ -82,4 +82,37 @@ public class UsersResource {
         //return usersRepository.findAll();
         //return Ht;
     }
+    public SignInResponse CheckSession(User data){
+
+        try{
+
+            User user =  userRepository.findOne(data.getId());
+
+            if(user==null){
+
+
+                response.setStatus("error");
+                response.setMsg("Please Sign In.");
+                signInResponse.setUsers(null);
+                signInResponse.setResponse(response);
+                return signInResponse;
+            }
+            else{
+
+                response.setStatus("success");
+                response.setMsg("");
+                signInResponse.setUsers(user);
+                signInResponse.setResponse(response);
+                return signInResponse;
+            }
+
+
+        }
+        catch(Exception e){
+            response.setStatus("error");
+            response.setMsg("Something went wrong, Try Again.");
+            signInResponse.setResponse(response);
+            return signInResponse;
+        }
+    }
 }
