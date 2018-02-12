@@ -36,9 +36,10 @@ Front-end server
 	
 Kafka 
 
-1. cd kafka
-2. npm install
-3. npm start
+1. Run the script topics.sh
+2. cd kafka
+3. npm install
+4. npm start
 	
 SpringBoot
 
@@ -46,45 +47,44 @@ SpringBoot
 
 Below are some screenshots demonstrating the application:
 
-### Welcome Page
+### Login Page
 ![](images/1.png)
 
-### Login
+### Register Page
 ![](images/2.png)
 
-### Login Successful
+### Welcome Page
 ![](images/3.png)
 
-### Register
+### Upload file
 ![](images/4.png)
 
-### Register Successful
+### Create directory
 ![](images/5.png)
 
-### Register Successful
+### List files/directories
 ![](images/6.png)
 
-### Register Successful
+### Star file/directory
 ![](images/7.png)
 
-### Register Successful
+### Remove file/directory
 ![](images/8.png)
 
-### Register Successful
+### See Personal Info
 ![](images/9.png)
 
-### Register Successful
 ![](images/10.png)
 
-### Register Successful
+### Edit Personal Info
 ![](images/11.png)
 
-### Register Successful
+### Share file/directory
 ![](images/12.png)
 
-### Register Successful
+### List shared files
 ![](images/13.png)
 
-### Register Successful
+### See activity logs
 ![](images/14.png)
 
