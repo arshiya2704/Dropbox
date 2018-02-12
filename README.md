@@ -61,4 +61,30 @@ Below are some screenshots demonstrating the application:
 ### Register Successful
 ![](images/5.png)
 
+### Register Successful
+![](images/6.png)
+
+### Register Successful
+![](images/7.png)
+
+### Register Successful
+![](images/8.png)
+
+### Register Successful
+![](images/9.png)
+
+### Register Successful
+![](images/10.png)
+
+### Register Successful
+![](images/11.png)
+
+### Register Successful
+![](images/12.png)
+
+### Register Successful
+![](images/13.png)
+
+### Register Successful
+![](images/14.png)
 
